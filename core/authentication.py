@@ -17,6 +17,7 @@ cred = credentials.Certificate({
         "auth_provider_x509_cert_url" : settings.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
         "client_x509_cert_url" : settings.FIREBASE_CLIENT_X509_CERT_URL
 })
+print(cred)
 default_app = firebase_admin.initialize_app(cred)
 class FirebaseAuthentication(BaseAuthentication):
     def authenticate(self, request):
