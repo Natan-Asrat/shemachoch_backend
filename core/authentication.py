@@ -35,4 +35,5 @@ class FirebaseAuthentication(BaseAuthentication):
         User = get_user_model()
         print(phone)
         user = User.objects.get(phoneNumber=phone)
+        print(user.first_name)
         return user, None
