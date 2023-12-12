@@ -2,8 +2,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 import os, datetime
-import dotenv
-dotenv.read_dotenv()
+# import dotenv
+# dotenv.read_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 AUTH_USER_MODEL = 'core.Employee'
