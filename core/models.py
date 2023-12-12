@@ -47,6 +47,8 @@ class Shemach(models.Model):
     hasReceivedOil = models.BooleanField(default=False)
     hasReceivedSugar = models.BooleanField(default=False)
     group = models.IntegerField(choices=GROUP_CHOICES, default=1)
+    def __str__(self) -> str:
+        return self.name + ": Oil -  " + str(self.quantityOil) + " , Sugar - " + str(self.quantitySugar)
 
 class Stock(models.Model):
     item = models.CharField(choices=INVENTORY_CHOICES, max_length=2)
