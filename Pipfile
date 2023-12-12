@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+django-debug-toolbar = "*"
+whitenoise = "*"
+dj-database-url = "*"
+psycopg2 = "*"
+firebase-admin = "*"
+django-dotenv = "*"
+django-cors-headers = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
