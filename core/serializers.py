@@ -1,4 +1,4 @@
-from . import models
+from . import models, cycle
 from rest_framework import serializers
 from django.db.models import Sum
 from datetime import timedelta
@@ -104,6 +104,10 @@ class GoodSerializer(serializers.ModelSerializer):
         stock = data.pop('remainingQuantity')
         data['stock'] = stock + ' ' + self.context.get('unit')
         return data
+    def create(self, validated_data):
+        validated_data['cycle'] = cycle.get_cycle()
+        
+        return super().create(validated_data)
 
 
 class AddMemberSerializer(serializers.ModelSerializer):
