@@ -106,7 +106,7 @@ class GoodSerializer(serializers.ModelSerializer):
         return data
     def create(self, validated_data):
         validated_data['cycle'] = cycle.get_cycle()
-        
+        print(validated_data)
         return super().create(validated_data)
 
 
