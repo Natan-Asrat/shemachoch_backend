@@ -20,7 +20,7 @@ class MemberAPI(ListAPIView, RetrieveAPIView, CreateAPIView, GenericViewSet):
     queryset = models.Shemach.objects.all()
     serializer_class = serializers.MemberSerializer
 
-class OilStock(ListAPIView, UpdateAPIView, GenericViewSet):
+class OilStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     queryset = models.Stock.objects.filter(
             item = models.INVENTORY_CHOICES[0][0],
             cycle = cycle.get_cycle()
@@ -37,7 +37,7 @@ class OilStock(ListAPIView, UpdateAPIView, GenericViewSet):
         context['unit'] = settings.OIL_UNIT
         return context
     
-class SugarStock(ListAPIView, UpdateAPIView, GenericViewSet):
+class SugarStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     queryset = models.Stock.objects.filter(
         item = models.INVENTORY_CHOICES[1][0],
             cycle = cycle.get_cycle()
