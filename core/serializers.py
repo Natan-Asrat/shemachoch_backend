@@ -55,9 +55,9 @@ class MemberSerializer(serializers.ModelSerializer):
 class GoodSerializer(serializers.ModelSerializer):
     group = serializers.ChoiceField(choices=models.GROUP_CHOICES, source='get_group_display')
     item = serializers.ChoiceField(choices=models.INVENTORY_CHOICES, source='get_item_display')
-    received_members = serializers.SerializerMethodField()
-    total_members = serializers.SerializerMethodField()
-    required_stock = serializers.SerializerMethodField()
+    received_members = serializers.SerializerMethodField(read_only=True)
+    total_members = serializers.SerializerMethodField(read_only=True)
+    required_stock = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = models.Stock
         fields = [
