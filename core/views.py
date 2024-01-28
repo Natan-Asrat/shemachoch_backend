@@ -38,6 +38,7 @@ class OilStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['unit'] = settings.OIL_UNIT
+        context['item'] = 'O'
         return context
     
 class SugarStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
@@ -56,6 +57,8 @@ class SugarStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['unit'] = settings.SUGAR_UNIT
+        context['item'] = 'S'
+
         return context
     
 class AddMemberAPI(CreateAPIView, GenericViewSet):

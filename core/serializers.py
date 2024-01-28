@@ -119,6 +119,7 @@ class GoodSerializer(serializers.ModelSerializer):
         return data
     def create(self, validated_data):
         validated_data['cycle'] = cycle.get_cycle()
+        validated_data['item'] = self.context.get('item')
         print(validated_data)
         instance, created = models.Stock.objects.get_or_create(**validated_data)
         return instance
