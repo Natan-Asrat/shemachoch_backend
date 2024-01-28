@@ -30,11 +30,11 @@ class OilStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
         )
     serializer_class = serializers.GoodSerializer
     lookup_field = "group"
-    def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_field]}
-        obj = queryset.filter(**filter_kwargs).first()
-        return obj
+    # def get_object(self):
+    #     queryset = self.filter_queryset(self.get_queryset())
+    #     filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_field]}
+    #     obj = queryset.filter(**filter_kwargs).first()
+    #     return obj
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['unit'] = settings.OIL_UNIT
