@@ -56,7 +56,7 @@ class MemberSerializer(serializers.ModelSerializer):
         return expiry
 
 class GoodSerializer(serializers.ModelSerializer):
-    group = serializers.ChoiceField(choices=models.GROUP_CHOICES, source='get_group_display', read_only=True)
+    group = serializers.ChoiceField(choices=models.GROUP_CHOICES, source='get_group_display')
     item = serializers.ChoiceField(choices=models.INVENTORY_CHOICES, source='get_item_display', read_only=True)
     received_members = serializers.SerializerMethodField(read_only=True)
     total_stock = serializers.SerializerMethodField(read_only=True)
