@@ -86,7 +86,7 @@ class GetUser(ListAPIView, GenericViewSet):
         }
         return Response(data)
 @api_view(['GET'])
-def download_csv(request):
+def download_sugar_csv(request):
     response = HttpResponse(
         content_type = "text/csv",
             headers = {
@@ -94,9 +94,26 @@ def download_csv(request):
             }    )
     writer = csv.writer(response)
     data = models.Stock.objects.all()
-    serializer = serializers.GoodSerializer(data = data, many=True)
-    serializer.is_valid(raise_exception=False)
-    serialized_data = serializer.data
+    serializerSugar = serializers.GoodSerializer(data = data, many=True, context= {'item': 'S', 'unit': settings.SUGAR_UNIT})
+    serializerSugar.is_valid(raise_exception=False)
+    serialized_data = serializerSugar.data
+    for item in serialized_data:
+        writer.writerow(
+            item.values()
+        )
+
+@api_view(['GET'])
+def download_oil_csv(request):
+    response = HttpResponse(
+        content_type = "text/csv",
+            headers = {
+                "Content-Disposition" : 'attachment; filename="stock.csv"'
+            }    )
+    writer = csv.writer(response)
+    data = models.Stock.objects.all()
+    serializerOil = serializers.GoodSerializer(data = data, many=True, context= {'item': 'O', 'unit': settings.OIL_UNIT})
+    serializerOil.is_valid(raise_exception=False)
+    serialized_data = serializerOil.data
     for item in serialized_data:
         writer.writerow(
             item.values()

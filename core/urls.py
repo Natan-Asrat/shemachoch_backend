@@ -14,5 +14,6 @@ router.register('user', views.GetUser)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('download_csv', views.download_csv)
+    path('download_oil_report', views.download_oil_csv),
+    path('download_sugar_report', views.download_sugar_csv)
 ]
