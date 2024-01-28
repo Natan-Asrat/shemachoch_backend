@@ -3,6 +3,10 @@ from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, R
 from rest_framework.viewsets import GenericViewSet
 from . import models, serializers, authentication
 from django.db.models import Count, Subquery, OuterRef, IntegerField
+
+from rest_framework.decorators import api_view
+from django.http import HttpResponse
+import csv
 from django.conf import settings
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -16,7 +20,7 @@ class DistributeAPI(RetrieveUpdateAPIView, GenericViewSet):
 
 
 class MemberAPI(ListAPIView, RetrieveAPIView, CreateAPIView, GenericViewSet):
-    authentication_classes = [authentication.FirebaseAuthentication]
+
     permission_classes = [permissions.IsAuthenticated]
     queryset = models.Shemach.objects.all()
     serializer_class = serializers.MemberSerializer
@@ -81,3 +85,19 @@ class GetUser(ListAPIView, GenericViewSet):
             'position': position
         }
         return Response(data)
+@api_view(['GET'])
+def download_csv(request):
+    response = HttpResponse(
+        content_type = "text/csv",
+            headers = {
+                "Content-Disposition" : 'attachment; filename="stock.csv"'
+            }    )
+    writer = csv.writer(response)
+    data = models.Stock.objects.all()
+    serializer = serializers.GoodSerializer(data, many=True)
+    serializer.is_valid(raise_exception=False)
+    serialized_data = serializer.data
+    for item in serialized_data:
+        writer.writerow(
+            item.values()
+        )

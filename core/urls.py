@@ -13,5 +13,6 @@ router.register('add_member', views.AddMemberAPI)
 router.register('user', views.GetUser)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('download_csv', views.download_csv)
 ]

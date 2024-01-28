@@ -6,8 +6,6 @@ from django.conf import settings
 from decimal import Decimal
 from django.db.models.functions import Coalesce
 from django.db.models import DecimalField
-
-
 EXPIRES_IN = settings.EXPIRES_IN
     
 class EmptySerializer(serializers.Serializer):
