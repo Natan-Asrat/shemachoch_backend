@@ -137,7 +137,10 @@ class GoodSerializer(serializers.ModelSerializer):
         validated_data['cycle'] = cycle.get_cycle()
         validated_data['item'] = self.context.get('item')
         print(validated_data)
+        amount = validated_data.pop('remainingQuantity')
         instance, created = models.Stock.objects.get_or_create(**validated_data)
+        instance.remainingQuantity += amount
+        instance.save()
         return instance
 
 
