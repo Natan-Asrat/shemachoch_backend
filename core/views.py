@@ -101,6 +101,7 @@ def download_sugar_csv(request):
         writer.writerow(
             item.values()
         )
+    return response
 
 @api_view(['GET'])
 def download_oil_csv(request):
@@ -118,3 +119,4 @@ def download_oil_csv(request):
         writer.writerow(
             item.values()
         )
+    return response
