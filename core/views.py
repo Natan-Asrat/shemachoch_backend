@@ -23,7 +23,7 @@ class MemberAPI(ListAPIView, RetrieveAPIView, CreateAPIView, GenericViewSet):
     filter_backends = [SearchFilter]
     search_fields = ['name']
 
-class OilStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
+class OilStock(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     queryset = models.Stock.objects.filter(
             item = models.INVENTORY_CHOICES[0][0],
             cycle = cycle.get_cycle()
