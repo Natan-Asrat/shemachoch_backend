@@ -104,7 +104,8 @@ def download_sugar_csv(request):
                 item.values()
             )
         return response
-    except:
+    except Exception as e:
+        print(e)
         return HttpResponse("No data to download")
 
 @api_view(['GET'])
@@ -126,5 +127,6 @@ def download_oil_csv(request):
                 item.values()
             )
         return response
-    except:
+    except Exception as e:
+        print(e)
         return HttpResponse("No data to download")
