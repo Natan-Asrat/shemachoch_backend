@@ -77,58 +77,71 @@ class GoodSerializer(serializers.ModelSerializer):
             'total_stock'
         ]
     def get_remaining_stock(self, obj):
-        group = obj.group
+        if isinstance( obj, models.Stock):
+            group = obj.group
+            remaining = obj.remainingQuantity
+        else:
+            group = obj['group']
+            remaining = obj['remainingQuantity']
         sum = 0
         if(self.context.get('item') == models.INVENTORY_CHOICES[0][0]):
             sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).aggregate(s=Coalesce(Sum('quantityOil'), 0,  output_field=DecimalField()))['s']
         if(self.context.get('item') == models.INVENTORY_CHOICES[1][0]):
             sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).aggregate(s=Coalesce(Sum('quantitySugar'), 0,  output_field=DecimalField()))['s']
-        return obj.remainingQuantity - sum
+        return remaining - sum
     def get_total_stock(self, obj):
-        # group = obj.group
-        # sum = None
-        # if(obj.item == models.INVENTORY_CHOICES[0][0]):
-        #     sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).aggregate(s=Sum('quantityOil'))['s']
-        # if(obj.item == models.INVENTORY_CHOICES[1][0]):
-        #     sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).aggregate(s=Sum('quantitySugar'))['s']
-        # if(sum is not None):
-        #     sum += obj.remainingQuantity
-        #     return sum
-        # return 0
-        return obj.remainingQuantity
+        if isinstance( obj, models.Stock):
+            remaining = obj.remainingQuantity
+        else:
+            remaining = obj['remainingQuantity']
+        return remaining
 
 
     def get_total_members(self, obj):
-        group = obj.group
-        count = None
-        if(obj.item == models.INVENTORY_CHOICES[0][0]):
+        if isinstance( obj, models.Stock):
+            group = obj.group
+            item = obj.item
+        else:
+            group = obj['group']
+            item = obj['item']
+    
+        if(item == models.INVENTORY_CHOICES[0][0]):
             count = models.Shemach.objects.filter(group = group, receivesOil=True).count()
-        if(obj.item == models.INVENTORY_CHOICES[1][0]):
+        if(item == models.INVENTORY_CHOICES[1][0]):
             count = models.Shemach.objects.filter(group = group, receivesSugar=True).count()
         if(count is not None):
             return count
         return 0
     def get_received_members(self, obj):
-        group = obj.group
+        if isinstance( obj, models.Stock):
+            group = obj.group
+            item = obj.item
+        else:
+            group = obj['group']
+            item = obj['item']
         count = None
-        if(obj.item == models.INVENTORY_CHOICES[0][0]):
+        if(item == models.INVENTORY_CHOICES[0][0]):
             count = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).count()
-        if(obj.item == models.INVENTORY_CHOICES[1][0]):
+        if(item == models.INVENTORY_CHOICES[1][0]):
             count = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).count()
         if(count is not None):
             return count
         return 0
     def get_required_stock(self, obj):
-        group = obj.group
+        if isinstance( obj, models.Stock):
+            group = obj.group
+            item = obj.item
+        else:
+            group = obj['group']
+            item = obj['item']
         sum = None
-        if(obj.item == models.INVENTORY_CHOICES[0][0]):
+        if(item == models.INVENTORY_CHOICES[0][0]):
             sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = False).aggregate(s=Sum('quantityOil'))['s']
-        if(obj.item == models.INVENTORY_CHOICES[1][0]):
+        if(item == models.INVENTORY_CHOICES[1][0]):
             sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = False).aggregate(s=Sum('quantitySugar'))['s']
         if(sum is not None):
             return sum
         return 0
-        # return obj.remainingQuantity
     def to_representation(self, instance):
         data = super().to_representation(instance)
         remaining = data.pop('remaining_stock')
