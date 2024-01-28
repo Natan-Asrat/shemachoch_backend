@@ -41,7 +41,7 @@ class OilStock(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, Gener
         context['item'] = 'O'
         return context
     
-class SugarStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
+class SugarStock(ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     queryset = models.Stock.objects.filter(
         item = models.INVENTORY_CHOICES[1][0],
             cycle = cycle.get_cycle()
