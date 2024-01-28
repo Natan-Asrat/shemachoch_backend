@@ -101,7 +101,7 @@ def download_sugar_csv(request):
         writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
-                item
+                item.values()
             )
         return response
     except Exception as e:
@@ -124,7 +124,7 @@ def download_oil_csv(request):
         writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
-                item
+                item.values()
             )
         return response
     except Exception as e:
