@@ -4,6 +4,8 @@ from django.db.models import Sum
 from datetime import timedelta
 from django.conf import settings
 from decimal import Decimal
+from django.db.models.functions import Coalesce
+
 
 EXPIRES_IN = settings.EXPIRES_IN
     
@@ -74,14 +76,12 @@ class GoodSerializer(serializers.ModelSerializer):
         ]
     def get_remaining_stock(self, obj):
         group = obj.group
-        sum = None
+        sum = 0
         if(self.context.get('item') == models.INVENTORY_CHOICES[0][0]):
-            sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).aggregate(s=Sum('quantityOil'))['s']
+            sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).aggregate(s=Coalesce(Sum('quantityOil'), 0))['s']
         if(self.context.get('item') == models.INVENTORY_CHOICES[1][0]):
-            sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).aggregate(s=Sum('quantitySugar'))['s']
-        if(sum is not None):
-            return obj.remainingQuantity - sum
-        return 0
+            sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).aggregate(s=Coalesce(Sum('quantitySugar'), 0))['s']
+        return obj.remainingQuantity - sum
     def get_total_stock(self, obj):
         # group = obj.group
         # sum = None
