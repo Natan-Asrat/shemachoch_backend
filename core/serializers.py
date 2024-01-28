@@ -68,6 +68,7 @@ class GoodSerializer(serializers.ModelSerializer):
             'remaining_stock',
             'received_members',
             'total_members',
+            'remainingQuantity',
             'required_stock',
             'total_stock'
         ]
