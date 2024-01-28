@@ -65,13 +65,14 @@ class GoodSerializer(serializers.ModelSerializer):
         model = models.Stock
         fields = [
             'item',
+            'cycle',
             'group',
             'groupName',
             'remaining_stock',
             'received_members',
             'total_members',
-            'remainingQuantity',
             'required_stock',
+            'remainingQuantity',
             'total_stock'
         ]
     def get_remaining_stock(self, obj):
@@ -129,8 +130,13 @@ class GoodSerializer(serializers.ModelSerializer):
         # return obj.remainingQuantity
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        stock = str(data.pop('remaining_stock'))
-        data['stock'] = stock + ' ' + self.context.get('unit')
+        remaining = data.pop('remaining_stock')
+        total = data.pop('total_stock')
+        data.pop('remainingQuantity')
+        data['remaining_stock_number'] = remaining
+        data['remaining_stock_words'] = str(remaining) + ' ' + self.context.get('unit')
+        data['total_stock_number'] = total
+        data['total_stock_words'] = str(total) + ' ' + self.context.get('unit')
         return data
     def create(self, validated_data):
         validated_data['cycle'] = cycle.get_cycle()

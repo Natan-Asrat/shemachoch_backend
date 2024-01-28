@@ -90,13 +90,14 @@ def download_sugar_csv(request):
     response = HttpResponse(
         content_type = "text/csv",
             headers = {
-                "Content-Disposition" : 'attachment; filename="stock.csv"'
+                "Content-Disposition" : 'attachment; filename="sugar_stock.csv"'
             }    )
     writer = csv.writer(response)
     data = models.Stock.objects.all()
     serializerSugar = serializers.GoodSerializer(data = data, many=True, context= {'item': 'S', 'unit': settings.SUGAR_UNIT})
     serializerSugar.is_valid(raise_exception=False)
     serialized_data = serializerSugar.data
+    writer.writerow("Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number" "Remaining stock in words", "Total Stock in number", "Total Stock in words")
     for item in serialized_data:
         writer.writerow(
             item.values()
@@ -108,13 +109,14 @@ def download_oil_csv(request):
     response = HttpResponse(
         content_type = "text/csv",
             headers = {
-                "Content-Disposition" : 'attachment; filename="stock.csv"'
+                "Content-Disposition" : 'attachment; filename="oil_stock.csv"'
             }    )
     writer = csv.writer(response)
     data = models.Stock.objects.all()
     serializerOil = serializers.GoodSerializer(data = data, many=True, context= {'item': 'O', 'unit': settings.OIL_UNIT})
     serializerOil.is_valid(raise_exception=False)
     serialized_data = serializerOil.data
+    writer.writerow("Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number" "Remaining stock in words", "Total Stock in number", "Total Stock in words")
     for item in serialized_data:
         writer.writerow(
             item.values()
