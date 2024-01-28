@@ -94,7 +94,7 @@ def download_csv(request):
             }    )
     writer = csv.writer(response)
     data = models.Stock.objects.all()
-    serializer = serializers.GoodSerializer(data, many=True)
+    serializer = serializers.GoodSerializer(data = data, many=True)
     serializer.is_valid(raise_exception=False)
     serialized_data = serializer.data
     for item in serialized_data:
