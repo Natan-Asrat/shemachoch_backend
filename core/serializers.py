@@ -61,6 +61,7 @@ class GoodSerializer(serializers.ModelSerializer):
     total_members = serializers.SerializerMethodField(read_only=True)
     required_stock = serializers.SerializerMethodField(read_only=True)
     remaining_stock = serializers.SerializerMethodField(read_only=True)
+    cycle = serializers.ReadOnlyField()
     class Meta:
         model = models.Stock
         fields = [
