@@ -126,7 +126,7 @@ class GoodSerializer(serializers.ModelSerializer):
         return obj.remainingQuantity
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        stock = data.pop('remaining_stock')
+        stock = str(data.pop('remaining_stock'))
         data['stock'] = stock + ' ' + self.context.get('unit')
         return data
     def create(self, validated_data):
