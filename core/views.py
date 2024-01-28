@@ -6,6 +6,7 @@ from django.db.models import Count, Subquery, OuterRef, IntegerField
 from django.conf import settings
 from rest_framework import permissions
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
 
 # Create your views here.
 from . import cycle
@@ -19,6 +20,8 @@ class MemberAPI(ListAPIView, RetrieveAPIView, CreateAPIView, GenericViewSet):
     permission_classes = [permissions.IsAuthenticated]
     queryset = models.Shemach.objects.all()
     serializer_class = serializers.MemberSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['name']
 
 class OilStock(ListAPIView, CreateAPIView, UpdateAPIView, GenericViewSet):
     queryset = models.Stock.objects.filter(

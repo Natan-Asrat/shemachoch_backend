@@ -56,6 +56,7 @@ class GoodSerializer(serializers.ModelSerializer):
     group = serializers.ChoiceField(choices=models.GROUP_CHOICES, source='get_group_display', read_only=True)
     item = serializers.ChoiceField(choices=models.INVENTORY_CHOICES, source='get_item_display', read_only=True)
     received_members = serializers.SerializerMethodField(read_only=True)
+    total_stock = serializers.SerializerMethodField(read_only=True)
     total_members = serializers.SerializerMethodField(read_only=True)
     required_stock = serializers.SerializerMethodField(read_only=True)
     class Meta:
@@ -67,7 +68,19 @@ class GoodSerializer(serializers.ModelSerializer):
             'received_members',
             'total_members',
             'required_stock',
+            'total_stock'
         ]
+    def get_total_stock(self, obj):
+        group = obj.group
+        sum = None
+        if(obj.item == models.INVENTORY_CHOICES[0][0]):
+            sum = models.Shemach.objects.filter(group = group, receivesOil=True, hasReceivedOil = True).aggregate(s=Sum('quantityOil'))['s']
+        if(obj.item == models.INVENTORY_CHOICES[1][0]):
+            sum = models.Shemach.objects.filter(group = group, receivesSugar=True, hasReceivedSugar = True).aggregate(s=Sum('quantitySugar'))['s']
+        if(sum is not None):
+            sum += obj.remainingQuantity
+            return sum
+        return 0
 
     def get_total_members(self, obj):
         group = obj.group
