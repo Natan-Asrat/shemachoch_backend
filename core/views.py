@@ -98,7 +98,7 @@ def download_sugar_csv(request):
     try:
         serializerSugar.is_valid(raise_exception=False)
         serialized_data = serializerSugar.data
-        writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number" "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
+        writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
                 item.values()
@@ -120,7 +120,7 @@ def download_oil_csv(request):
     try:
         serializerOil.is_valid(raise_exception=False)
         serialized_data = serializerOil.data
-        writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number" "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
+        writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
                 item.values()
