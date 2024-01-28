@@ -120,7 +120,7 @@ class GoodSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['cycle'] = cycle.get_cycle()
         print(validated_data)
-        return super().create(validated_data)
+        return models.Stock.objects.get_or_create(**validated_data)
 
 
 class AddMemberSerializer(serializers.ModelSerializer):
