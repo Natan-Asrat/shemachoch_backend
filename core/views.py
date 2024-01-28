@@ -93,7 +93,7 @@ def download_sugar_csv(request):
                 "Content-Disposition" : 'attachment; filename="sugar_stock.csv"'
             }    )
     writer = csv.writer(response)
-    data = list(models.Stock.objects.values())
+    data = models.Stock.objects.all()
     serializerSugar = serializers.GoodSerializer(data = data, many=True, context= {'item': 'S', 'unit': settings.SUGAR_UNIT})
     try:
         serializerSugar.is_valid(raise_exception=True)
@@ -101,7 +101,7 @@ def download_sugar_csv(request):
         writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
-                item.values()
+                item
             )
         return response
     except Exception as e:
@@ -116,7 +116,7 @@ def download_oil_csv(request):
                 "Content-Disposition" : 'attachment; filename="oil_stock.csv"'
             }    )
     writer = csv.writer(response)
-    data = list(models.Stock.objects.values())
+    data = models.Stock.objects.all()
     serializerOil = serializers.GoodSerializer(data = data, many=True, context= {'item': 'O', 'unit': settings.OIL_UNIT})
     try:
         serializerOil.is_valid(raise_exception=True)
@@ -124,7 +124,7 @@ def download_oil_csv(request):
         writer.writerow(["Item", "Cycle", "Group Number", "Group Name",  "Received Members", "Total Members",  "Required Stock",  "Remaining stock in number", "Remaining stock in words", "Total Stock in number", "Total Stock in words"])
         for item in serialized_data:
             writer.writerow(
-                item.values()
+                item
             )
         return response
     except Exception as e:
