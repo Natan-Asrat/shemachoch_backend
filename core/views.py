@@ -19,7 +19,7 @@ class DistributeAPI(RetrieveUpdateAPIView, GenericViewSet):
     serializer_class = serializers.DistributeItemSerializer
 
 
-class MemberAPI(ListAPIView, RetrieveAPIView, CreateAPIView, GenericViewSet):
+class MemberAPI(ListAPIView, RetrieveUpdateAPIView, CreateAPIView, GenericViewSet):
 
     permission_classes = [permissions.IsAuthenticated]
     queryset = models.Shemach.objects.all()
